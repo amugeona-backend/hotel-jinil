@@ -1,0 +1,6 @@
+class : hotel, user, room, product room, reservation
+user class : 이름, 전화번호, 소지금
+room class : 객실 종류, 가격
+product room class : 방 번호, 객실 종류, 가격, 예약날짜, 예약 여부
+reservation class : product room, 고객 이름, 고객 전화번호, 예약날짜
+hotel class : 객실 리스트, 고객 리스트, 예약 리스트, 자산
