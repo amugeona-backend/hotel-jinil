@@ -1,16 +1,17 @@
 package service;
 
-import model.User;
 import java.util.Scanner;
 
-public class userMode {
-    Scanner input = new Scanner(System.in);
-    public void displayUserMode() {
-        System.out.println("환영합니다"); // 고객 이름 추가
+public class UserMode {
+    private final HotelService hotelService;
 
+    public UserMode(HotelService hotelService) {
+        this.hotelService = hotelService;
     }
 
-    public void displayUserMenu() {
+    Scanner input = new Scanner(System.in);
+
+    public void displayUserMode() {
         System.out.println();
         System.out.println("1. 호텔 예약하기");
         System.out.println("2. 예약 조회하기");
@@ -30,7 +31,7 @@ public class userMode {
 
             default -> {
                 System.out.println("1~7번 메뉴를 선택하세요.");
-                displayUserMenu();
+                displayUserMode();
             }
         }
     }

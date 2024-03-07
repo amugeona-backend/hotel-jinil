@@ -1,5 +1,0 @@
-hotelService Class :
-
-userService Class :
-
-managerService Class :

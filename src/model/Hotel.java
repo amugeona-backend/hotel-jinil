@@ -5,6 +5,7 @@ import java.util.List;
 
 import static constant.HotelConstant.HOTEL_MONEY;
 import static constant.HotelConstant.PASSWORD;
+import static constant.HotelConstant.ID;
 
 public class Hotel {
     private final List<ProductRoom> productRooms = new ArrayList<>();
@@ -25,6 +26,8 @@ public class Hotel {
     }
 
     public int getHotel_money() { return hotel_money; }
+
+    public String getId() { return ID;}
 
     public String getPassword() {
         return PASSWORD;
