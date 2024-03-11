@@ -33,7 +33,7 @@ public class Hotel {
         return PASSWORD;
     }
 
-    public void setAsset(int money) {
+    public void setHotel_money(int money) {
         this.hotel_money = money;
     }
 }

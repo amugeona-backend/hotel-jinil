@@ -1,6 +1,5 @@
 package controller;
 
-import model.Hotel;
 import model.User;
 
 import service.ManagerMode;
@@ -9,10 +8,10 @@ import service.HotelService;
 
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 import static service.HotelService.getHotelService;
 public class HotelController {
-    Hotel hotel = new Hotel();
-    private static HotelController hotelController;
 
     HotelService hotelService = getHotelService();
     ManagerMode managerMode = new ManagerMode(hotelService);
@@ -26,16 +25,24 @@ public class HotelController {
     }
 
     public void startMenu () {
-        System.out.println("1. 로그인");
-        System.out.println("2. 회원가입");
-        int select = input.nextInt();
-        switch (select) {
-            case 1 -> signIn();
-            case 2 -> signUp();
-            default -> {
+        while (true) {
+
+            System.out.println("0. 프로그램 종료");
+            System.out.println("1. 로그인");
+            System.out.println("2. 회원가입");
+            // 계정 찾기 추가하기
+            int select = input.nextInt();
+            if (select == 0) {
+                System.out.println("프로그램을 종료합니다.");
+                exit(0);
+            }
+            else if (select == 1) signIn();
+            else if (select == 2) signUp();
+            else {
                 System.out.println("1또는 2를 입력하세요.");
                 startMenu();
             }
+
         }
     }
 
@@ -52,17 +59,15 @@ public class HotelController {
         }
         // 고객 아이디일 경우 고객모드로 로그인
         else if (hotelService.isUser(id, pw)) {
-            String userName;
-            userName = String.valueOf(hotel.getUsers().stream().filter(u -> u.getUserId().equals(id) && u.getUserPw().equals(pw))
-                            .map(User::getName).findFirst());
+            User user = hotelService.findUserById(id);
 
             System.out.println();
-            System.out.println("환영합니다. " + userName + "님");
-            userMode.displayUserMode();
+            System.out.println("환영합니다. " + user.getName() + "님");
+            userMode.displayUserMode(user);
         }
         else {
             System.out.println("아이디 혹은 비밀번호가 올바르지 않습니다.");
-            signIn();
+            startMenu();
         }
     }
 
@@ -71,7 +76,7 @@ public class HotelController {
         boolean validId = false;
         boolean validPw = false;
 
-        String name = null;
+        String name;
         String phoneNumber = null;
         String id = null;
         String pw = null;
@@ -87,10 +92,12 @@ public class HotelController {
                     validPhoneNumber = true;
                     System.out.println("사용가능한 전화번호입니다.");
                     System.out.println();
-                };
-                System.out.println("존재하는 전화번호입니다.");
-                System.out.println("다른 전화번호를 입력해주세요.");
-                System.out.println();
+                }
+                else {
+                    System.out.println("존재하는 전화번호입니다.");
+                    System.out.println("다른 전화번호를 입력해주세요.");
+                    System.out.println();
+                }
             }
             else {
                 System.out.println("유효하지 않은 전화번호입니다.");
@@ -114,7 +121,7 @@ public class HotelController {
         while (!validPw) {
             System.out.print("비밀번호 : ");
             pw = input.next();
-            System.out.println("비밀번호 확인 : ");
+            System.out.print("비밀번호 확인 : ");
             String pw2 = input.next();
             if (pw.equals(pw2)) {
                 validPw = true;
@@ -131,8 +138,9 @@ public class HotelController {
         // 유저 생성
         hotelService.addUser(new User(name, phoneNumber, id, pw));
 
-        System.out.println("환영합니다. " + name + "님");
-        userMode.displayUserMode();
+        System.out.println("회원가입이 완료되었습니다!!");
+
+        startMenu();
     }
 
 }

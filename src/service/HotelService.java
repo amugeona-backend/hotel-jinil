@@ -117,4 +117,26 @@ public class HotelService {
         return hotel.getUsers().stream().noneMatch(u -> u.getUserId().equals(id));
     }
 
+    public User findUserById (String id) {
+        return hotel.getUsers().stream()
+                .filter(u -> u.getUserId().equals(id))
+                .findFirst().orElse(null);  //.orElse(매개변수) : 값이 null일 경우 매개변수를 반환
+    }
+
+    public void addReservation(Reservation reservation) {
+        hotel.getReservations().add(reservation);
+    }
+
+    public void cancelReservation(Reservation reservation) {
+        hotel.getReservations().remove(reservation);
+    }
+
+    public void addHotelMoney(int money) {
+        hotel.setHotel_money(hotel.getHotel_money() + money);
+    }
+
+    public void deductHotelMoney(int money) {
+        hotel.setHotel_money(hotel.getHotel_money() - money);
+    }
+
 }
