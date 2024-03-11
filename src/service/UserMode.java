@@ -43,7 +43,7 @@ public class UserMode {
             case 4 -> chargePoint(user);
             case 5 -> showPoint(user);
             case 6 -> exchangePoint(user);
-            case 7 -> logOut(user);
+            case 7 -> logOut();
             default -> {
                 System.out.println("1~7번 메뉴를 선택하세요.");
                 displayUserMode(user);
@@ -250,7 +250,7 @@ public class UserMode {
         }
     }
 
-    public void logOut(User user) {
+    public void logOut() {
         System.out.println("로그아웃되었습니다.");
     }
 
