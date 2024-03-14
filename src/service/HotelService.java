@@ -123,6 +123,18 @@ public class HotelService {
                 .findFirst().orElse(null);  //.orElse(매개변수) : 값이 null일 경우 매개변수를 반환
     }
 
+    public User findUserId(String phoneNumber) {
+        return hotel.getUsers().stream()
+                .filter(u -> u.getPhoneNumber().equals(phoneNumber))
+                .findFirst().orElse(null);
+    }
+
+    public User findUserPw(String id) {
+        return hotel.getUsers().stream()
+                .filter(u -> u.getUserId().equals(id))
+                .findFirst().orElse(null);
+    }
+
     public void addReservation(Reservation reservation) {
         hotel.getReservations().add(reservation);
     }

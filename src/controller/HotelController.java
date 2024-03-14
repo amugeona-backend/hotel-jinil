@@ -30,17 +30,20 @@ public class HotelController {
             System.out.println("0. 프로그램 종료");
             System.out.println("1. 로그인");
             System.out.println("2. 회원가입");
-            // 계정 찾기 추가하기
+            System.out.println("3. 계정 찾기");
             int select = input.nextInt();
-            if (select == 0) {
-                System.out.println("프로그램을 종료합니다.");
-                exit(0);
-            }
-            else if (select == 1) signIn();
-            else if (select == 2) signUp();
-            else {
-                System.out.println("1또는 2를 입력하세요.");
-                startMenu();
+            switch (select) {
+                case 0 -> {
+                    System.out.println("프로그램을 종료합니다.");
+                    exit(0);
+                }
+                case 1 -> signIn();
+                case 2 -> signUp();
+                case 3 -> findAccount();
+                default -> {
+                    System.out.println("0~3번 메뉴를 선택하세요.");
+                    startMenu();
+                }
             }
 
         }
@@ -141,6 +144,61 @@ public class HotelController {
         System.out.println("회원가입이 완료되었습니다!!");
 
         startMenu();
+    }
+
+    public void findAccount() {
+        System.out.println();
+        System.out.println("0. 이전으로 가기");
+        System.out.println("1. 아이디 찾기");
+        System.out.println("2. 비밀번호 찾기");
+        System.out.print("입력 : ");
+        int select = input.nextInt();
+        switch (select) {
+            case 0 -> startMenu();
+            case 1 -> findId();
+            case 2 -> findPw();
+            default -> {
+                System.out.println("0~2번 메뉴를 선택하세요.");
+                findAccount();
+            }
+        }
+    }
+
+    public void findId() {
+        System.out.print("전화번호 : ");
+        String phoneNumber = input.next();
+        if (!hotelService.correctPhoneNumber(phoneNumber)) {
+            System.out.println("올바르지 않은 전화번호입니다.");
+            System.out.println("다시 입력하세요.");
+            findId();
+        }
+
+        User user = hotelService.findUserId(phoneNumber);
+
+        if (user == null) {
+            System.out.println("존재하지 않는 전화번호입니다.");
+            findAccount();
+        } else {
+            System.out.println(user.getName() + "님의 아이디는 '" + user.getUserId() + "' 입니다.");
+            startMenu();
+        }
+
+    }
+
+    public void findPw() {
+        System.out.print("아이디 : ");
+        String pw = input.next();
+
+        User user = hotelService.findUserPw(pw);
+
+        if (user == null) {
+            System.out.println("존재하지 않는 아이디입니다.");
+            findAccount();
+        } else {
+            System.out.println(user.getName() + "님의 비밀번호는 '" + user.getUserPw() + "' 입니다.");
+            startMenu();
+        }
+
     }
 
 }
