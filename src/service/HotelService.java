@@ -84,11 +84,11 @@ public class HotelService {
         return hotel.getHotel_money();
     }
 
-    public void addUser (User user) {
+    public void addUser(User user) {
         hotel.getUsers().add(user);
     }
 
-    public boolean isUser (String id, String pw) {
+    public boolean isUser(String id, String pw) {
         // 고객 아이디, 비밀번호 확인
         return ( hotel.getUsers().stream()
                 .filter(user -> user.getUserId().equals(id))
@@ -100,27 +100,37 @@ public class HotelService {
         return ( id.equals(hotel.getId()) && pw.equals(hotel.getPassword()) );
     }
 
-    public boolean correctPhoneNumber (String phoneNumber) {
+    public boolean correctPhoneNumber(String phoneNumber) {
         // 000-0000-0000 형태의 전화번호인지 확인
         String pattern = "^\\d{3}-\\d{4}-\\d{4}$";
         return Pattern.matches(pattern, phoneNumber);
     }
 
-    public boolean existPhoneNumber (String phoneNumber) {
+    public boolean existPhoneNumber(String phoneNumber) {
         // 전화번호 중복검사
         return hotel.getUsers().stream().noneMatch(u -> u.getPhoneNumber().equals(phoneNumber));
     }
 
-    public boolean existId (String id) {
+    public boolean existId(String id) {
         // 아이디 중복검사
         // 반환값 변경
         return hotel.getUsers().stream().noneMatch(u -> u.getUserId().equals(id));
     }
 
-    public User findUserById (String id) {
+    public User findUserById(String id) {
         return hotel.getUsers().stream()
                 .filter(u -> u.getUserId().equals(id))
                 .findFirst().orElse(null);  //.orElse(매개변수) : 값이 null일 경우 매개변수를 반환
+    }
+
+    public List<User> findUserByName(String name) {
+        return hotel.getUsers().stream()
+                .filter(u -> u.getName().equals(name))
+                .toList();
+    }
+
+    public int countAllUsers() {
+        return hotel.getUsers().size();
     }
 
     public User findUserId(String phoneNumber) {

@@ -2,8 +2,10 @@ package service;
 
 import model.ProductRoom;
 import model.Reservation;
+import model.User;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class ManagerMode {
@@ -23,15 +25,17 @@ public class ManagerMode {
         System.out.println();
         System.out.println("1. 예약 현황");
         System.out.println("2. 자산 현황");
-        System.out.println("3. 로그아웃");
+        System.out.println("3. 회원 관리");
+        System.out.println("4. 로그아웃");
         System.out.print("입력 : ");
         int select = input.nextInt();
         switch (select) {
             case 1 -> reservationStatus();
             case 2 -> hotelMoneyStatus();
-            case 3 -> logOut();
+            case 3 -> userStatus();
+            case 4 -> logOut();
             default -> {
-                System.out.println("1~3번 메뉴를 선택하세요.");
+                System.out.println("1~4번 메뉴를 선택하세요.");
                 displayManagerMenu();
             }
         }
@@ -162,9 +166,9 @@ public class ManagerMode {
 
     public void showReservationByPhoneNumber(String phoneNumber) {
         System.out.println();
-        for (Reservation reservation : hotelService.findReservationByPhoneNumber(phoneNumber)) {
-            System.out.println(reservation.productRoom().getReservedDate() + "\t" + reservation.productRoom().getRoomType() + "\t"
-            + reservation.userName() + "\t" + reservation.userPhoneNumber());
+        for (Reservation reservations : hotelService.findReservationByPhoneNumber(phoneNumber)) {
+            System.out.println(reservations.productRoom().getReservedDate() + "\t" + reservations.productRoom().getRoomType() + "\t"
+            + reservations.userName() + "\t" + reservations.userPhoneNumber());
         }
         System.out.println("0. 이전으로 가기");
         int select = input.nextInt();
@@ -235,6 +239,53 @@ public class ManagerMode {
     public void hotelMoneyStatus() {
         System.out.println("현재 호텔 자산은 " + hotelService.getHotelMoney() + "원 입니다.");
         displayManagerMenu();
+    }
+
+    public void userStatus() {
+        System.out.println();
+        System.out.println("0. 이전으로 가기");
+        System.out.println("1. 회원 조회");
+        System.out.println("2. 회원 수 조회");
+        System.out.print("입력 : ");
+        int select = input.nextInt();
+        switch (select) {
+            case 0 -> displayManagerMenu();
+            case 1 -> findUser();
+            case 2 -> countUsers();
+            default -> {
+                System.out.println("0~2번 메뉴를 입력하세요.");
+                userStatus();
+            }
+        }
+    }
+
+    public void findUser() {
+        System.out.println();
+        System.out.println("조회하려는 회원의 이름을 입력하세요.");
+        System.out.print("입력 : ");
+        String name = input.next();
+        System.out.println();
+
+        List<User> users = hotelService.findUserByName(name);
+
+        if (users.isEmpty()) {
+            System.out.println("존재하지 않는 회원입니다.");
+        } else {
+            for (User user : users) {
+                // 이름, 전화번호, 잔액
+                System.out.println("이름 : " + user.getName() + "\t전화번호 : " + user.getPhoneNumber() + "\t잔액 : " + user.getUserMoney());
+            }
+        }
+
+        displayManagerMenu();
+
+    }
+
+    public void countUsers() {
+        int userNum = hotelService.countAllUsers();
+
+        System.out.println();
+        System.out.println("현재 회원 수는 " + userNum + "명 입니다.");
     }
 
     public void logOut() {

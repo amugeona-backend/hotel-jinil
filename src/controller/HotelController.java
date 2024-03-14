@@ -26,7 +26,7 @@ public class HotelController {
 
     public void startMenu () {
         while (true) {
-
+            System.out.println();
             System.out.println("0. 프로그램 종료");
             System.out.println("1. 로그인");
             System.out.println("2. 회원가입");
@@ -115,6 +115,7 @@ public class HotelController {
             if (hotelService.existId(id)) {
                 validId = true;
                 System.out.println("사용가능한 id입니다.");
+                System.out.println();
             }
             else {
                 System.out.println("존재하는 id입니다.");
@@ -129,6 +130,7 @@ public class HotelController {
             if (pw.equals(pw2)) {
                 validPw = true;
                 System.out.println("비밀번호가 일치합니다.");
+                System.out.println();
             }
             else {
                 System.out.println("비밀번호가 일치하지 않습니다.");
@@ -141,6 +143,7 @@ public class HotelController {
         // 유저 생성
         hotelService.addUser(new User(name, phoneNumber, id, pw));
 
+        System.out.println();
         System.out.println("회원가입이 완료되었습니다!!");
 
         startMenu();
